@@ -1,0 +1,1206 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0b18">
+<title>Zyvaryx Cine</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0d0b18;
+  color: white;
+}
+
+.tela {
+  display: none;
+  min-height: 100vh;
+  padding: 20px 20px 105px;
+}
+
+.tela.ativa {
+  display: block;
+}
+
+#inicio.ativa {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #7138c9;
+  text-align: center;
+}
+
+.logo {
+  font-size: 35px;
+  font-weight: 900;
+}
+
+.subtitulo {
+  font-size: 17px;
+}
+
+input {
+  width: 100%;
+  padding: 17px;
+  border: 2px solid #d5b5ff;
+  border-radius: 17px;
+  font-size: 17px;
+  margin: 10px 0;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 14px;
+  padding: 13px 18px;
+  background: #8b5cf6;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cheio {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.botao-voltar {
+  margin-bottom: 20px;
+}
+
+.painel {
+  background: #201a30;
+  border-radius: 18px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.rodape {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #0d0b18;
+  border-top: 1px solid #282238;
+  padding: 10px 2px 13px;
+  z-index: 10;
+}
+
+.item-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex: 1;
+  padding: 5px 0;
+  background: transparent;
+  color: #aaa4bc;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.item-menu .icone {
+  font-size: 27px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-menu.ativo {
+  color: #c078ff;
+}
+
+.foto-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 25px 0 55px;
+}
+
+.bola-foto {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7838e8, #b04cff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 4px solid #eadcff;
+  box-shadow: 0 0 28px #8b5cf655;
+  cursor: pointer;
+  color: white;
+  font-size: 70px;
+}
+
+.bola-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.texto-foto {
+  color: #b77cff;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
+.campo {
+  margin-bottom: 32px;
+}
+
+.campo label {
+  display: block;
+  color: #9550ec;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.campo input {
+  background: white;
+  color: #241536;
+  border: 2px solid #d9baff;
+  border-radius: 20px;
+  padding: 19px;
+  margin: 0 0 12px;
+}
+
+.previa {
+  background: #f1e6fc;
+  color: #50316e;
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+#perfil {
+  background: white;
+  color: #7138c9;
+}
+
+#perfil .botao-voltar {
+  color: white;
+}
+
+.episodio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  background: #201a30;
+  border-radius: 15px;
+}
+
+.episodio p {
+  color: #c7bbdc;
+}
+
+.link {
+  color: #c99aff;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 650px) {
+  .tela {
+    max-width: 700px;
+    margin: auto;
+  }
+
+  #inicio.ativa {
+    max-width: none;
+  }
+
+  #perfil {
+    max-width: 700px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INÍCIO -->
+<section id="inicio" class="tela ativa">
+  <div style="font-size:65px">🎬</div>
+  <h1 class="logo">ZYVARYX CINE</h1>
+  <p class="subtitulo">Suas novelinhas de IA favoritas!</p>
+
+  <div style="width:100%;max-width:450px">
+    <input id="nomeInicial" placeholder="Digite seu nome">
+    <button class="cheio" onclick="entrar()">Entrar</button>
+  </div>
+</section>
+
+<!-- EXPLORAR -->
+<section id="explorar" class="tela">
+  <div class="topo">
+    <h1>Explorar</h1>
+    <button onclick="abrir('configuracoes')">⚙️</button>
+  </div>
+
+  <input id="pesquisa" placeholder="🔎 Pesquisar episódios" oninput="pesquisar()">
+  <div id="resultados"></div>
+
+  <div class="painel">
+    <h2>Comece a assistir</h2>
+    <p>Descubra nossas novelinhas de IA.</p>
+    <a class="link" href="https://www.tiktok.com/@zyvaryxcine"
+       target="_blank" rel="noopener noreferrer">
+      tiktok.com/@zyvaryxcine
+    </a>
+  </div>
+</section>
+
+<!-- MINHA LISTA -->
+<section id="lista" class="tela">
+  <h1>Minha Lista ♡</h1>
+  <p style="color:#bfb4d2">Seus episódios favoritos aparecerão aqui.</p>
+  <div id="favoritos"></div>
+</section>
+
+<!-- PERFIL -->
+<section id="perfil" class="tela">
+  <button class="botao-voltar" onclick="voltar()">← Voltar</button>
+
+  <div class="foto-area">
+    <label for="seletorFoto" class="bola-foto">
+      <img id="fotoGrande" alt="Sua foto de perfil" hidden>
+      <span id="lapis">✎</span>
+    </label>
+
+    <input
+      id="seletorFoto"
+      type="file"
+      accept="image/*"
+      hidden
+      onchange="selecionarFoto(event)"
+    >
+
+    <label for="seletorFoto" class="texto-foto">
+      Sua foto aqui
+    </label>
+  </div>
+
+  <div class="campo">
+    <label for="perfilNome">Seu Nome</label>
+    <input id="perfilNome"
+      placeholder="Clique e digite seu nome..."
+      oninput="atualizarPrevia()">
+
+    <div class="previa" id="previaNome">
+      Seu nome aparecerá aqui ✨
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="perfilEmail">Seu Gmail</label>
+    <input id="perfilEmail" type="email"
+      placeholder="Clique e digite seu e-mail..."
+      oninput="atualizarPrevia()">
+
+    <div class="previa" id="previaEmail">
+      Seu e-mail aparecerá aqui ✨
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="perfilIdade">Sua idade</label>
+    <input id="perfilIdade" type="number"
+      min="1" max="120"
+      placeholder="Digite sua idade..."
+      oninput="atualizarPrevia()">
+
+    <div class="previa" id="previaIdade">
+      Sua idade aparecerá aqui ✨
+    </div>
+  </div>
+
+  <button class="cheio" onclick="salvarPerfil()">
+    Salvar perfil
+  </button>
+</section>
+
+<!-- CONFIGURAÇÕES -->
+<section id="configuracoes" class="tela">
+  <button class="botao-voltar" onclick="voltar()">← Voltar</button>
+  <h1>Configurações</h1>
+  <button class="cheio" onclick="abrir('episodios')">Ver episódios</button>
+</section>
+
+<!-- EPISÓDIOS -->
+<section id="episodios" class="tela">
+  <button class="botao-voltar" onclick="voltar()">← Voltar</button>
+  <h1>Episódios</h1>
+  <div id="listaEpisodios"></div>
+</section>
+
+<!-- REPRODUÇÃO -->
+<section id="assistir" class="tela">
+  <button class="botao-voltar" onclick="voltar()">← Voltar</button>
+  <h1 id="tituloVideo"></h1>
+  <div class="painel">
+    <p>Adicione o vídeo do episódio para reproduzi-lo aqui.</p>
+    <a class="link" href="https://www.tiktok.com/@zyvaryxcine"
+       target="_blank" rel="noopener noreferrer">
+      Abrir TikTok do Zyvaryx
+    </a>
+  </div>
+</section>
+
+<!-- MENU INFERIOR -->
+<nav class="rodape">
+  <button class="item-menu ativo" onclick="irMenu('inicio',this)">
+    <span class="icone">⌂</span>
+    <span>Início</span>
+  </button>
+
+  <button class="item-menu" onclick="irMenu('explorar',this)">
+    <span class="icone">⌕</span>
+    <span>Explorar</span>
+  </button>
+
+  <button class="item-menu" onclick="irMenu('lista',this)">
+    <span class="icone">♡</span>
+    <span>Minha Lista</span>
+  </button>
+
+  <button class="item-menu" onclick="irMenu('perfil',this)">
+    <span class="icone" id="iconePerfilRodape">♙</span>
+    <span>Perfil</span>
+  </button>
+</nav>
+
+<script>
+const episodios = [
+  {id:1, titulo:"O encontro do cartão preto"},
+  {id:2, titulo:"A mãe vê o cartão"}
+];
+
+let nomeUsuario = "";
+let historico = [];
+let favoritos = [];
+let fotoData = "";
+let telaAtual = "inicio";
+
+function mostrarTela(id) {
+  document.querySelectorAll(".tela").forEach(t => {
+    t.classList.remove("ativa");
+  });
+
+  document.getElementById(id).classList.add("ativa");
+  telaAtual = id;
+  window.scrollTo(0, 0);
+
+  if (id === "episodios") renderizarEpisodios();
+  if (id === "explorar") pesquisar();
+  if (id === "lista") renderizarFavoritos();
+}
+
+function abrir(id) {
+  if (id === telaAtual) return;
+  historico.push(telaAtual);
+  mostrarTela(id);
+}
+
+function voltar() {
+  if (historico.length) {
+    mostrarTela(historico.pop());
+  } else {
+    mostrarTela("inicio");
+  }
+}
+
+function irMenu(id, botao) {
+  historico = [];
+  mostrarTela(id);
+
+  document.querySelectorAll(".item-menu").forEach(b => {
+    b.classList.remove("ativo");
+  });
+
+  botao.classList.add("ativo");
+}
+
+function entrar() {
+  const nome = document.getElementById("nomeInicial").value.trim();
+
+  if (!nome) {
+    alert("Digite seu nome para entrar!");
+    return;
+  }
+
+  nomeUsuario = nome;
+  document.getElementById("perfilNome").value = nome;
+  atualizarPrevia();
+
+  const botaoInicio = document.querySelectorAll(".item-menu")[0];
+  irMenu("explorar", document.querySelectorAll(".item-menu")[1]);
+}
+
+function selecionarFoto(event) {
+  const arquivo = event.target.files[0];
+  if (!arquivo) return;
+
+  if (!arquivo.type.startsWith("image/")) {
+    alert("Escolha um arquivo de imagem.");
+    return;
+  }
+
+  if (arquivo.size > 8 * 1024 * 1024) {
+    alert("Escolha uma imagem de até 8 MB.");
+    event.target.value = "";
+    return;
+  }
+
+  const leitor = new FileReader();
+
+  leitor.onload = function(e) {
+    fotoData = e.target.result;
+
+    const imagem = document.getElementById("fotoGrande");
+    imagem.src = fotoData;
+    imagem.hidden = false;
+
+    document.getElementById("lapis").hidden = true;
+
+    // Atualiza a foto do botão Perfil no rodapé.
+    const icone = document.getElementById("iconePerfilRodape");
+    icone.innerHTML = "";
+
+    const miniatura = document.createElement("img");
+    miniatura.src = fotoData;
+    miniatura.alt = "Foto do perfil";
+    miniatura.style.width = "30px";
+    miniatura.style.height = "30px";
+    miniatura.style.objectFit = "cover";
+    miniatura.style.borderRadius = "50%";
+
+    icone.appendChild(miniatura);
+  };
+
+  leitor.readAsDataURL(arquivo);
+}
+
+function atualizarPrevia() {
+  const nome = document.getElementById("perfilNome").value.trim();
+  const email = document.getElementById("perfilEmail").value.trim();
+  const idade = document.getElementById("perfilIdade").value;
+
+  document.getElementById("previaNome").textContent =
+    nome || "Seu nome aparecerá aqui ✨";
+
+  document.getElementById("previaEmail").textContent =
+    email || "Seu e-mail aparecerá aqui ✨";
+
+  document.getElementById("previaIdade").textContent =
+    idade ? idade + " anos ✨" : "Sua idade aparecerá aqui ✨";
+}
+
+function salvarPerfil() {
+  const nome = document.getElementById("perfilNome").value.trim();
+
+  if (!nome) {
+    alert("Digite seu nome antes de salvar.");
+    return;
+  }
+
+  nomeUsuario = nome;
+  document.getElementById("nomeInicial").value = nome;
+  alert("Perfil atualizado!");
+}
+
+function pesquisar() {
+  const campo = document.getElementById("pesquisa");
+  const resultados = document.getElementById("resultados");
+  if (!campo || !resultados) return;
+
+  const termo = campo.value.toLowerCase().trim();
+
+  const encontrados = episodios.filter(ep =>
+    (`ep ${ep.id} ${ep.titulo}`).toLowerCase().includes(termo)
+  );
+
+  resultados.innerHTML = termo ? encontrados.map(ep => `
+    <div class="episodio">
+      <div><strong>EP ${ep.id}</strong><p>${ep.titulo}</p></div>
+      <button onclick="abrirEpisodio(${ep.id})">Abrir</button>
+    </div>
+  `).join("") || "<p>Nenhum episódio encontrado.</p>" : "";
+}
+
+function renderizarEpisodios() {
+  document.getElementById("listaEpisodios").innerHTML =
+    episodios.map(ep => `
+      <div class="episodio">
+        <div><strong>EP ${ep.id}</strong><p>${ep.titulo}</p></div>
+        <button onclick="abrirEpisodio(${ep.id})">Abrir</button>
+        <button onclick="alternarFavorito(${ep.id})">♡</button>
+      </div>
+    `).join("");
+}
+
+function abrirEpisodio(id) {
+  const ep = episodios.find(e => e.id === id);
+  if (!ep) return;
+
+  document.getElementById("tituloVideo").textContent =
+    "EP " + ep.id + " — " + ep.titulo;
+
+  abrir("assistir");
+}
+
+function alternarFavorito(id) {
+  if (favoritos.includes(id)) {
+    favoritos = favoritos.filter(f => f !== id);
+  } else {
+    favoritos.push(id);
+  }
+  renderizarEpisodios();
+}
+
+function renderizarFavoritos() {
+  const lista = document.getElementById("favoritos");
+  const meusEpisodios = episodios.filter(e => favoritos.includes(e.id));
+
+  lista.innerHTML = meusEpisodios.length
+    ? meusEpisodios.map(ep => `
+      <div class="episodio">
+        <div><strong>EP ${ep.id}</strong><p>${ep.titulo}</p></div>
+        <button onclick="abrirEpisodio(${ep.id})">Assistir</button>
+      </div>
+    `).join("")
+    : '<p style="color:#bfb4d2">Você ainda não adicionou favoritos.</p>';
+}
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0b18">
+<title>Zyvaryx Cine</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0d0b18;
+  color: white;
+}
+
+.tela {
+  display: none;
+  min-height: 100vh;
+  padding: 20px 20px 105px;
+}
+
+.tela.ativa {
+  display: block;
+}
+
+#inicio.ativa {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #7138c9;
+  text-align: center;
+}
+
+.logo {
+  font-size: 35px;
+  font-weight: 900;
+}
+
+.subtitulo {
+  font-size: 17px;
+}
+
+input {
+  width: 100%;
+  padding: 17px;
+  border: 2px solid #d5b5ff;
+  border-radius: 17px;
+  font-size: 17px;
+  margin: 10px 0;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 14px;
+  padding: 13px 18px;
+  background: #8b5cf6;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cheio {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.botao-voltar {
+  margin-bottom: 20px;
+}
+
+.painel {
+  background: #201a30;
+  border-radius: 18px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.rodape {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #0d0b18;
+  border-top: 1px solid #282238;
+  padding: 10px 2px 13px;
+  z-index: 10;
+}
+
+.item-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex: 1;
+  padding: 5px 0;
+  background: transparent;
+  color: #aaa4bc;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.item-menu .icone {
+  font-size: 27px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-menu.ativo {
+  color: #c078ff;
+}
+
+.foto-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 25px 0 55px;
+}
+
+.bola-foto {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7838e8, #b04cff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 4px solid #eadcff;
+  box-shadow: 0 0 28px #8b5cf655;
+  cursor: pointer;
+  color: white;
+  font-size: 70px;
+}
+
+.bola-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.texto-foto {
+  color: #b77cff;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
+.campo {
+  margin-bottom: 32px;
+}
+
+.campo label {
+  display: block;
+  color: #9550ec;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.campo input {
+  background: white;
+  color: #241536;
+  border: 2px solid #d9baff;
+  border-radius: 20px;
+  padding: 19px;
+  margin: 0 0 12px;
+}
+
+.previa {
+  background: #f1e6fc;
+  color: #50316e;
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+#perfil {
+  background: white;
+  color: #7138c9;
+}
+
+#perfil .botao-voltar {
+  color: white;
+}
+
+.episodio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  background: #201a30;
+  border-radius: 15px;
+}
+
+.episodio p {
+  color: #c7bbdc;
+}
+
+.link {
+  color: #c99aff;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 650px) {
+  .tela {
+    max-width: 700px;
+    margin: auto;
+  }
+
+  #inicio.ativa {
+    max-width: none;
+  }
+
+  #perfil {
+    max-width: 700px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INÍCIO -->
+<section id="inicio" class="tela ativa">
+  <div style="font-size:65px">🎬</div>
+  <h1 class="logo">ZYVARYX CINE</h1>
+  <p class="subtitulo">Suas novelinhas de IA favoritas!</p>
+
+  <div style="width:100%;max-width:450px">
+    <input id="nomeInicial" placeholder="Digite seu nome">
+    <button class="cheio" onclick="entrar()">Entrar</button>
+  </div>
+</section>
+
+<!-- EXPLORAR -->
+<section id="explorar" class="tela">
+  <div class="topo">
+    <h1>Explorar</h1>
+    <button onclick="abrir('configuracoes')">⚙️</button>
+  </div>
+
+  <input id="pesquisa" placeholder="🔎 Pesquisar episódios" oninput="pesquisar()">
+  <div id="resultados"></div>
+
+  <div class="painel">
+    <h2>Comece a assistir</h2>
+    <p>Descubra nossas novelinhas de IA.</p>
+    <a class="link" href="https://www.tiktok.com/@zyvaryxcine"
+       target="_blank" rel="noopener noreferrer">
+      tiktok.com/@zyvaryxcine
+    </a>
+  </div>
+</section>
+
+<!-- MINHA LISTA -->
+<section id="lista" class="tela">
+  <h1>Minha Lista ♡</h1>
+  <p style="color:#bfb4d2">Seus episódios favoritos aparecerão aqui.</p>
+  <div id="favoritos"></div>
+</section>
+
+<!-- PERFIL -->
+<section id="perfil" class="tela">
+  <button class="botao-voltar" onclick="voltar()">← Voltar</button>
+
+  <div class="foto-area">
+    <label for="seletorFoto" class="bola-foto">
+      <img id="fotoGrande" alt="Sua foto de perfil" hidden>
+      <span id="lapis">✎</span>
+    </label>
+
+    <input
+      id="seletorFoto"
+      type="file"
+      accept="image/*"
+      hidden
+      onchange="selecionarFoto(event)"
+    >
+
+    <label for="seletorFoto" class="texto-foto">
+      Sua foto aqui
+    </label>
+  </div>
+
+  <div class="campo">
+    <label for="perfilNome">Seu Nome</label>
+    <input id="perfilNome"
+      placeholder="Clique e digite seu nome..."
+      oninput="atualizarPrevia()">
+
+    <div class="previa" id="previaNome">
+      Seu nome aparecerá aqui ✨
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="perfilEmail">Seu Gmail</label>
+    <input id="perfilEmail" type="email"
+      placeholder="Clique e digite seu e-mail..."
+      oninput="atualizarPrevia()">
+
+    <div class="previa" id="previaEmail">
+      Seu e-mail aparecerá aqui ✨
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="perfilIdade">Sua idade</label>
+    <input id="perfilIdade" type="number"
+      min="1" max="120"
+      placeholder="Digite sua idade..."
+      oninput="atualizarPrevia()">
+
+    <div class="previa" id="previaIdade">
+      Sua idade aparecerá aqui ✨
+    </div>
+  </div>
+
+  <button class="cheio" onclick="salvarPerfil()">
+    Salvar perfil
+  </button>
+</section>
+
+<!-- CONFIGURAÇÕES -->
+<section id="configuracoes" class="tela">
+  <button class="botao-voltar" onclick="voltar()">← Voltar</button>
+  <h1>Configurações</h1>
+  <button class="cheio" onclick="abrir('episodios')">Ver episódios</button>
+</section>
+
+<!-- EPISÓDIOS -->
+<section id="episodios" class="tela">
+  <button class="botao-voltar" onclick="voltar()">← Voltar</button>
+  <h1>Episódios</h1>
+  <div id="listaEpisodios"></div>
+</section>
+
+<!-- REPRODUÇÃO -->
+<section id="assistir" class="tela">
+  <button class="botao-voltar" onclick="voltar()">← Voltar</button>
+  <h1 id="tituloVideo"></h1>
+  <div class="painel">
+    <p>Adicione o vídeo do episódio para reproduzi-lo aqui.</p>
+    <a class="link" href="https://www.tiktok.com/@zyvaryxcine"
+       target="_blank" rel="noopener noreferrer">
+      Abrir TikTok do Zyvaryx
+    </a>
+  </div>
+</section>
+
+<!-- MENU INFERIOR -->
+<nav class="rodape">
+  <button class="item-menu ativo" onclick="irMenu('inicio',this)">
+    <span class="icone">⌂</span>
+    <span>Início</span>
+  </button>
+
+  <button class="item-menu" onclick="irMenu('explorar',this)">
+    <span class="icone">⌕</span>
+    <span>Explorar</span>
+  </button>
+
+  <button class="item-menu" onclick="irMenu('lista',this)">
+    <span class="icone">♡</span>
+    <span>Minha Lista</span>
+  </button>
+
+  <button class="item-menu" onclick="irMenu('perfil',this)">
+    <span class="icone" id="iconePerfilRodape">♙</span>
+    <span>Perfil</span>
+  </button>
+</nav>
+
+<script>
+const episodios = [
+  {id:1, titulo:"O encontro do cartão preto"},
+  {id:2, titulo:"A mãe vê o cartão"}
+];
+
+let nomeUsuario = "";
+let historico = [];
+let favoritos = [];
+let fotoData = "";
+let telaAtual = "inicio";
+
+function mostrarTela(id) {
+  document.querySelectorAll(".tela").forEach(t => {
+    t.classList.remove("ativa");
+  });
+
+  document.getElementById(id).classList.add("ativa");
+  telaAtual = id;
+  window.scrollTo(0, 0);
+
+  if (id === "episodios") renderizarEpisodios();
+  if (id === "explorar") pesquisar();
+  if (id === "lista") renderizarFavoritos();
+}
+
+function abrir(id) {
+  if (id === telaAtual) return;
+  historico.push(telaAtual);
+  mostrarTela(id);
+}
+
+function voltar() {
+  if (historico.length) {
+    mostrarTela(historico.pop());
+  } else {
+    mostrarTela("inicio");
+  }
+}
+
+function irMenu(id, botao) {
+  historico = [];
+  mostrarTela(id);
+
+  document.querySelectorAll(".item-menu").forEach(b => {
+    b.classList.remove("ativo");
+  });
+
+  botao.classList.add("ativo");
+}
+
+function entrar() {
+  const nome = document.getElementById("nomeInicial").value.trim();
+
+  if (!nome) {
+    alert("Digite seu nome para entrar!");
+    return;
+  }
+
+  nomeUsuario = nome;
+  document.getElementById("perfilNome").value = nome;
+  atualizarPrevia();
+
+  const botaoInicio = document.querySelectorAll(".item-menu")[0];
+  irMenu("explorar", document.querySelectorAll(".item-menu")[1]);
+}
+
+function selecionarFoto(event) {
+  const arquivo = event.target.files[0];
+  if (!arquivo) return;
+
+  if (!arquivo.type.startsWith("image/")) {
+    alert("Escolha um arquivo de imagem.");
+    return;
+  }
+
+  if (arquivo.size > 8 * 1024 * 1024) {
+    alert("Escolha uma imagem de até 8 MB.");
+    event.target.value = "";
+    return;
+  }
+
+  const leitor = new FileReader();
+
+  leitor.onload = function(e) {
+    fotoData = e.target.result;
+
+    const imagem = document.getElementById("fotoGrande");
+    imagem.src = fotoData;
+    imagem.hidden = false;
+
+    document.getElementById("lapis").hidden = true;
+
+    // Atualiza a foto do botão Perfil no rodapé.
+    const icone = document.getElementById("iconePerfilRodape");
+    icone.innerHTML = "";
+
+    const miniatura = document.createElement("img");
+    miniatura.src = fotoData;
+    miniatura.alt = "Foto do perfil";
+    miniatura.style.width = "30px";
+    miniatura.style.height = "30px";
+    miniatura.style.objectFit = "cover";
+    miniatura.style.borderRadius = "50%";
+
+    icone.appendChild(miniatura);
+  };
+
+  leitor.readAsDataURL(arquivo);
+}
+
+function atualizarPrevia() {
+  const nome = document.getElementById("perfilNome").value.trim();
+  const email = document.getElementById("perfilEmail").value.trim();
+  const idade = document.getElementById("perfilIdade").value;
+
+  document.getElementById("previaNome").textContent =
+    nome || "Seu nome aparecerá aqui ✨";
+
+  document.getElementById("previaEmail").textContent =
+    email || "Seu e-mail aparecerá aqui ✨";
+
+  document.getElementById("previaIdade").textContent =
+    idade ? idade + " anos ✨" : "Sua idade aparecerá aqui ✨";
+}
+
+function salvarPerfil() {
+  const nome = document.getElementById("perfilNome").value.trim();
+
+  if (!nome) {
+    alert("Digite seu nome antes de salvar.");
+    return;
+  }
+
+  nomeUsuario = nome;
+  document.getElementById("nomeInicial").value = nome;
+  alert("Perfil atualizado!");
+}
+
+function pesquisar() {
+  const campo = document.getElementById("pesquisa");
+  const resultados = document.getElementById("resultados");
+  if (!campo || !resultados) return;
+
+  const termo = campo.value.toLowerCase().trim();
+
+  const encontrados = episodios.filter(ep =>
+    (`ep ${ep.id} ${ep.titulo}`).toLowerCase().includes(termo)
+  );
+
+  resultados.innerHTML = termo ? encontrados.map(ep => `
+    <div class="episodio">
+      <div><strong>EP ${ep.id}</strong><p>${ep.titulo}</p></div>
+      <button onclick="abrirEpisodio(${ep.id})">Abrir</button>
+    </div>
+  `).join("") || "<p>Nenhum episódio encontrado.</p>" : "";
+}
+
+function renderizarEpisodios() {
+  document.getElementById("listaEpisodios").innerHTML =
+    episodios.map(ep => `
+      <div class="episodio">
+        <div><strong>EP ${ep.id}</strong><p>${ep.titulo}</p></div>
+        <button onclick="abrirEpisodio(${ep.id})">Abrir</button>
+        <button onclick="alternarFavorito(${ep.id})">♡</button>
+      </div>
+    `).join("");
+}
+
+function abrirEpisodio(id) {
+  const ep = episodios.find(e => e.id === id);
+  if (!ep) return;
+
+  document.getElementById("tituloVideo").textContent =
+    "EP " + ep.id + " — " + ep.titulo;
+
+  abrir("assistir");
+}
+
+function alternarFavorito(id) {
+  if (favoritos.includes(id)) {
+    favoritos = favoritos.filter(f => f !== id);
+  } else {
+    favoritos.push(id);
+  }
+  renderizarEpisodios();
+}
+
+function renderizarFavoritos() {
+  const lista = document.getElementById("favoritos");
+  const meusEpisodios = episodios.filter(e => favoritos.includes(e.id));
+
+  lista.innerHTML = meusEpisodios.length
+    ? meusEpisodios.map(ep => `
+      <div class="episodio">
+        <div><strong>EP ${ep.id}</strong><p>${ep.titulo}</p></div>
+        <button onclick="abrirEpisodio(${ep.id})">Assistir</button>
+      </div>
+    `).join("")
+    : '<p style="color:#bfb4d2">Você ainda não adicionou favoritos.</p>';
+}
+</script>
+
+</body>
+</html>
